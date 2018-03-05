@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>检测工具 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../index.html" />
+    <link rel="up" title="移动App安全检测" href="index.html" />
+    <link rel="next" title="检测方法" href="substances.html" />
+    <link rel="prev" title="移动App安全检测" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>检测工具<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>基础环境<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>安装java、python、SDK、adb等环境，并且配置好环境变量</li>
+<li>安装一个可视化数据库用来查看数据库表</li>
+</ul>
+</div>
+<div class="section" id="burpsuite">
+<h2>Burpsuite安装<a class="headerlink" href="#burpsuite" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>用于攻击web应用程序的集成平台，可以暴力破解、重放攻击、绕过验证等。</li>
+<li>只要安装了Java，并配置好环境就可以直接打开了</li>
+</ul>
+<img alt="android-device-list" class="align-center" src="../_images/Burpsuite.png" />
+</div>
+<div class="section" id="androidkiller">
+<h2>Androidkiller<a class="headerlink" href="#androidkiller" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>是一款可视化的安卓应用逆向工具，集apk反编译、apk打包、apk签名，编码互转，ADB通信（应用安装-卸载-运行-设备文件管理）等特色功能于一身。</li>
+<li>直接打开点exe文件就可以了。</li>
+</ul>
+<img alt="android-device-list" class="align-center" src="../_images/Androidkiller.png" />
+</div>
+<div class="section" id="drozer">
+<h2>Drozer（龙刀）<a class="headerlink" href="#drozer" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">是一款综合的安全评估和攻击的android框架。</p>
+</li>
+<li><dl class="first docutils">
+<dt>安装</dt>
+<dd><ul class="first simple">
+<li>从http://mwr.to/drozer下载Drozer&nbsp;(Windows&nbsp;Installer)。</li>
+<li>在Android设备中安装agent.apk。</li>
+</ul>
+<div class="last highlight-shell"><div class="highlight"><pre><span></span>adb install agent.apk。
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">启动</p>
+<blockquote>
+<div><ul class="simple">
+<li>在PC上使用adb进行端口转发，转发到Drozer使用的端口31415。</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>adb forward tcp:31415 tcp:31415。
+</pre></div>
+</div>
+<ul class="simple">
+<li>在Android设备上开启Drozer&nbsp;Agent，选择embedded&nbsp;server-enable（点击“开启”）。</li>
+<li>在PC上开启Drozer&nbsp;console。</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>drozer console connect。
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">开始测试</p>
+<blockquote>
+<div><ul class="simple">
+<li>确定攻击面</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>run app.package.attacksurface + 包名。
+</pre></div>
+</div>
+<ul class="simple">
+<li>获取activity/Content&nbsp;Provider/broadcast/service信息。命令：run app.activity.info -a  + 包名。</li>
+</ul>
+<p>注：详细请看：<a class="reference external" href="http://www.cnblogs.com/goodhacker/p/3906180.html">http://www.cnblogs.com/goodhacker/p/3906180.html</a> 利用drozer进行Android渗透测试。</p>
+</div></blockquote>
+</li>
+</ul>
+<img alt="android-device-list" class="align-center" src="../_images/drozer.png" />
+</div>
+<div class="section" id="ddms">
+<h2>DDMS<a class="headerlink" href="#ddms" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>DDMS（Dalvik Debug Monitor Service），是 Android 开发环境中的Dalvik虚拟机调试监控服务。</li>
+<li>主要安装了SDK，就自带这个工具。</li>
+</ul>
+<img alt="android-device-list" class="align-center" src="../_images/DDMS.png" />
+</div>
+<div class="section" id="ida-pro">
+<h2>IDA Pro<a class="headerlink" href="#ida-pro" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>是目前最棒的一个静态反编译软件，为众多0day世界的成员和ShellCode安全分析人士不可缺少的利器！</li>
+<li>安装：下载安装地址：<a class="reference external" href="https://www.52pojie.cn/thread-366098-1-1.html">https://www.52pojie.cn/thread-366098-1-1.html</a>  按照上面下载安装就好了。</li>
+</ul>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">检测工具</a><ul>
+<li><a class="reference internal" href="#id2">基础环境</a></li>
+<li><a class="reference internal" href="#burpsuite">Burpsuite安装</a></li>
+<li><a class="reference internal" href="#androidkiller">Androidkiller</a></li>
+<li><a class="reference internal" href="#drozer">Drozer（龙刀）</a></li>
+<li><a class="reference internal" href="#ddms">DDMS</a></li>
+<li><a class="reference internal" href="#ida-pro">IDA Pro</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">移动App安全检测</a><ul>
+      <li>Previous: <a href="index.html" title="上一章">移动App安全检测</a></li>
+      <li>Next: <a href="substances.html" title="下一章">检测方法</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/app security/tools.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/app security/tools.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

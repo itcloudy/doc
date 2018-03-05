@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>用户操作安全检测 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../index.html" />
+    <link rel="up" title="检测方法" href="substances.html" />
+    <link rel="next" title="数据安全检测" href="data_security.html" />
+    <link rel="prev" title="软件自身安全检测" href="software_self_security.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>用户操作安全检测<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>密码机制<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div><p>1.检测APP是否存在弱口令。</p>
+<p>2.检测APP在登录过程中是否有错误密码尝试次数限制，登录密码错误次数过多后是否采取保护措施。</p>
+<p>3.检测APP是否会记录登录信息，输入密码后切换会话，检查密码会话是否会残留密码。</p>
+<p>4.检测APP密码输入框的内容是否使用了不可区分的字符进行屏蔽。</p>
+</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div><p>1.检测APP在注册、找回密码和修改密码过程是否可以设置弱口令。只要有其中一种情况满足，则被测APP允许使用弱口令。（一般情况下是使用123456进行测试）</p>
+<p>2.连续10次输入错误密码进行登录验证，查看连续10次错误验证之后被测账号是否会被暂时锁定；再次输入正确的用户名和密码是否可以成功登录。</p>
+<p>3.进入APP登录界面，输入密码后切换到后台在切换回来，检查密码会话是否会残留密码。</p>
+<p>4.进入APP登录界面，输入密码，查看密码输入框的内容是否使用了不可区分的字符进行屏蔽。</p>
+</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div><p>1.建议强制使用长度为6位以上的字母加数字组合密码。</p>
+<p>2.连续多次错误密码登录验证后，锁定用户登录账号的时间至少为3小时。使用图形验证码进行防暴力破解。</p>
+<p>3.输入密码后切换到后台在切换回来，应该清空密码输入框中的内容。</p>
+<p>4.密码输入框的内容是应该使用“*”号等不可区分的字符进行屏蔽。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>验证码机制<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div><p>1.检测APP在注册、登录、修改密码、找回密码过程中使用图形验证码/短信验证码/邮箱验证码等机制。</p>
+<p>注：使用图形验证码机制可以防重放攻击和暴力破解，短信验证码/邮箱验证码可以进行用户身份校验。</p>
+<p>2.如果使用图形验证码，检测图形验证码来源（服务器或者本地）。</p>
+<p>3.检测APP使用的短信/邮箱验证码是有在超时或验证错误失效机制，以防止短信/邮箱验证码被暴力破解。</p>
+</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div><p>1.进入APP注册、登录、修改密码、找回密码界面，查看是否使用图形验证码/短信验证码/邮箱验证码等机制。</p>
+<p>2.通过burpsuite抓包查看图形验证码的来源，是本地还是服务器端返回的。</p>
+<p>3.在需要短信/邮箱验证码的地方点击获取验证码，查看验证码形式（数字还是字母和数字组合）。</p>
+<p>4.获取验证码之后等待半小时或是1小时之后，输入验证码，看是否验证通过。</p>
+<p>5.连续20次获取验证码，查看是否都能获得到验证码。</p>
+<p>6.获取验证码之后输入错误验证码，看是否验证通过。</p>
+<p>7.不输入验证码，看是否验证通过。</p>
+<p>8.通过burpsuite抓包之后，删除验证码字段，看是否可以绕过验证。</p>
+</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div><p>1.建议APP在注册、登录、修改密码、找回密码过程中使用图形验证码/短信验证码/邮箱验证码或是两者组合等机制。</p>
+<p>2.图形验证码应由服务器端生成并在服务器端做验证。</p>
+<p>3.短信/邮箱验证码验证码形式为数字形式，建议为6位，或是采取字母和数字组合形式。</p>
+<p>4.获取验证码超时时间为30分钟，超过30分钟失效。</p>
+<p>5.1天只可以获取5次验证码，之后不能收到验证码。</p>
+<p>6.输入错误的验证码，验证失败。</p>
+<p>7.不输入验证码，验证失败。</p>
+<p>8.对传输的参数进行完整性校验。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>账户枚举<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>此内容同web检测，详细查看《web系统的安全和防攻击》文档。</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">用户操作安全检测</a><ul>
+<li><a class="reference internal" href="#id2">密码机制</a></li>
+<li><a class="reference internal" href="#id3">验证码机制</a></li>
+<li><a class="reference internal" href="#id4">账户枚举</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">移动App安全检测</a><ul>
+  <li><a href="substances.html">检测方法</a><ul>
+      <li>Previous: <a href="software_self_security.html" title="上一章">软件自身安全检测</a></li>
+      <li>Next: <a href="data_security.html" title="下一章">数据安全检测</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/app security/user_operation.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/app security/user_operation.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

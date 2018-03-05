@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API测试框架 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../index.html" />
+    <link rel="up" title="API测试" href="index.html" />
+    <link rel="next" title="性能测试" href="../性能测试/index.html" />
+    <link rel="prev" title="API测试" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="api">
+<h1>API测试框架<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>框架结构<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<img alt="框架结构" class="align-center" src="../_images/api_test_framework_tree.png" />
+</div>
+<div class="section" id="id2">
+<h2>框架地址<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><a class="reference external" href="https://gitee.com/hexiaoyun01/auto_test_api">https://gitee.com/hexiaoyun01/auto_test_api</a></div></blockquote>
+</div>
+<div class="section" id="api-test-py">
+<h2>api_test.py<a class="headerlink" href="#api-test-py" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CaseRequest类主要函数和功能如下：</p>
+<ul class="simple">
+<li>request：若请求发生变化(数据格式)，或者新增请求类型需要在request中进行修改或增加</li>
+<li>run：用例执行及判断，用例中的检查点和检查内容在run中使用</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="excel-map-py">
+<h2>excel_map.py<a class="headerlink" href="#excel-map-py" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>excel文件中的中文名映射为map中的key用于代码中</div></blockquote>
+</div>
+<div class="section" id="local-case-py">
+<h2>local_case.py<a class="headerlink" href="#local-case-py" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>LocalCase加载本地测试用例数据，读取test_case文件夹下的excel和xml文件，根据文件内容生成测试用例，。支持多个文件</div></blockquote>
+</div>
+<div class="section" id="local-report-py">
+<h2>local_report.py<a class="headerlink" href="#local-report-py" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>LocalReport用于生成本地报告，存放到local_report文件夹下</p>
+<ul class="simple">
+<li>REPORT_HEAD_TMPL 报告的头部</li>
+<li>REPORT_HEAD_INFO_TMPL 报告的统计信息</li>
+<li>REPORT_MAIN_TMPL 报告主题，用例明细及结果信息使用REPORT_CASE_LINE_TMPL生成并插入</li>
+<li>REPORT_CASE_LINE_TMPL 单个用例信息生成模版</li>
+<li>REPORT_FOOTER_TMPL 报告底部，自定义按钮操作的js</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="main-py">
+<h2>main.py<a class="headerlink" href="#main-py" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>测试框架运行主文件</div></blockquote>
+</div>
+<div class="section" id="remote-report-py">
+<h2>remote_report.py<a class="headerlink" href="#remote-report-py" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>测试结果上传到服务器，包括创建测试项目和测试用例结果明细</div></blockquote>
+</div>
+<div class="section" id="remote-report-conf">
+<h2>remote_report_conf<a class="headerlink" href="#remote-report-conf" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>测试结果上传配置信息：测试项目信息，服务器地址，用户信息等</div></blockquote>
+</div>
+<div class="section" id="test-conf">
+<h2>test.conf<a class="headerlink" href="#test-conf" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>测试配置信息：测试的地址，测试使用的用户等信息</div></blockquote>
+</div>
+<div class="section" id="util-py">
+<h2>util.py<a class="headerlink" href="#util-py" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>通用函数,包括测试用户的登录，若修改请求参数格式，此处同样需要修改</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>用例设计<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<img alt="用例设计" class="align-center" src="../_images/case_data_design.png" />
+</div>
+<div class="section" id="id4">
+<h2>用例数据<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><blockquote>
+<div>用例的执行顺序为从读取文件(支持多文件用例)和在文件中的顺序</div></blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt>分类</dt>
+<dd><p class="first last">用例所属大类</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>功能模块</dt>
+<dd><p class="first last">用例所属模块</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>功能点</dt>
+<dd><p class="first last">用例测试功能点</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>用例名称</dt>
+<dd><p class="first last">用例名称</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>有效</dt>
+<dd><p class="first last">用例是否有效，无效则跳过</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>网关地址</dt>
+<dd><p class="first last">针对微服务时的地址前缀，若普通服务可为空</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>地址</dt>
+<dd><p class="first last">和网关地址组合称实际请求地址 ：网管地址/地址</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>请求方法</dt>
+<dd><p class="first last">支持POST,GET,PUT,DELETE方法</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>数据类型</dt>
+<dd><p class="first last">支持form,data,file</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>检查点</dt>
+<dd><p class="first last">支持 包含,不包含,等于,不等于,正则</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>检查内容</dt>
+<dd><p class="first last">检查点根据检查内容判断测试是否成功</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>数据位置</dt>
+<dd><p class="first last">测试数据来源，支持：本地,文件,本地表示数据在excel或者xml文件中，文件表示数据在test_data(需要读取内容后转为json数据)或者test_meida(发送的数据即文件)中读取文件，</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>请求数据</dt>
+<dd><p class="first last">测试数据为本地时的请求数据</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API测试框架</a><ul>
+<li><a class="reference internal" href="#id1">框架结构</a></li>
+<li><a class="reference internal" href="#id2">框架地址</a></li>
+<li><a class="reference internal" href="#api-test-py">api_test.py</a></li>
+<li><a class="reference internal" href="#excel-map-py">excel_map.py</a></li>
+<li><a class="reference internal" href="#local-case-py">local_case.py</a></li>
+<li><a class="reference internal" href="#local-report-py">local_report.py</a></li>
+<li><a class="reference internal" href="#main-py">main.py</a></li>
+<li><a class="reference internal" href="#remote-report-py">remote_report.py</a></li>
+<li><a class="reference internal" href="#remote-report-conf">remote_report_conf</a></li>
+<li><a class="reference internal" href="#test-conf">test.conf</a></li>
+<li><a class="reference internal" href="#util-py">util.py</a></li>
+<li><a class="reference internal" href="#id3">用例设计</a></li>
+<li><a class="reference internal" href="#id4">用例数据</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">API测试</a><ul>
+      <li>Previous: <a href="index.html" title="上一章">API测试</a></li>
+      <li>Next: <a href="../性能测试/index.html" title="下一章">性能测试</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api_test/framework.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/api_test/framework.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

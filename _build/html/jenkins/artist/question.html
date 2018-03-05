@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>问题 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../../index.html" />
+    <link rel="up" title="Artist 项目持续集成(Job列表)" href="index.html" />
+    <link rel="next" title="SSH remote hosts配置" href="../ssh_remote_hosts.html" />
+    <link rel="prev" title="帐号服务(Job)" href="artist-micro-account.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>问题<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>产品库：<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">主页和产品库页面显示有何不同</p>
+</li>
+<li><dl class="first docutils">
+<dt>搜索</dt>
+<dd><p class="first last">搜索分类或产品，若出现分类和产品名一致，如何处理</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>时间排序</dt>
+<dd><p class="first last">修改的产品设为新品是按创建时间还是更新时间</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>批量上下架</dt>
+<dd><p class="first last">客户端是指啥 web app ？
+下架产品不能搜索，若下架产品有1000款，如何快速找到其中某个下架的产品</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>批量删除</dt>
+<dd><p class="first last">删除的产品如何再次上架，删除和下架的区别</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>删除</dt>
+<dd><p class="first last">是从数据中删除还是只标识删除</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>产品编辑<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><dl class="first docutils">
+<dt>产品基本信息</dt>
+<dd><p class="first last">产品类别应为选择项，而不是输入项
+该产品若有多个供应商如何处理</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>产品属性</dt>
+<dd><p class="first last">材质，适合人群，工艺应为选择项，而不是输入项</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>产品规格</dt>
+<dd><p class="first last">并不是所有的产品都有长度、宽度、高度等信息
+规格管理不够灵活，可以参考京东百泰首饰的产品管理：<a class="reference external" href="https://item.jd.com/10256467202.html">https://item.jd.com/10256467202.html</a>
+该款式下不同克重为不同规格，具有不同的id</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>推广管理<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><dl class="first docutils">
+<dt>类别编辑</dt>
+<dd><p class="first last">建议采用tree结构</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>操作</dt>
+<dd><p class="first last">没有编辑选项</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>快捷推广<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><dl class="first docutils">
+<dt>推广名</dt>
+<dd><p class="first last">不建议新设推广名，app进去之后显示推广名不同容易认为产品不对
+若快捷进去为新设推广名，在推广地址进去同样的产品推广名不一致</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>轮播设置<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><dl class="first docutils">
+<dt>删除</dt>
+<dd><p class="first last">删除是否要删除数据库的记录以及相应的图片</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h2>销售人员管理<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><dl class="first docutils">
+<dt>页面风格</dt>
+<dd><p class="first last">太丑，没法浏览销售人员，个人信息多的情况页面布局不美观，跟进客户给出信息过少</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h2>订单管理<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>所有的订单都有人去处理，明细都要业务人员手动添加，工作量大</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h2>统计数据<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">应以图的形式或者图表两种形式查看</p>
+</li>
+<li><dl class="first docutils">
+<dt>客户维度</dt>
+<dd><p class="first last">一级户名二级户名含义</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>没有用户退出功能
+页面设计不统一</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">问题</a><ul>
+<li><a class="reference internal" href="#id2">产品库：</a></li>
+<li><a class="reference internal" href="#id3">产品编辑</a></li>
+<li><a class="reference internal" href="#id4">推广管理</a></li>
+<li><a class="reference internal" href="#id5">快捷推广</a></li>
+<li><a class="reference internal" href="#id6">轮播设置</a></li>
+<li><a class="reference internal" href="#id7">销售人员管理</a></li>
+<li><a class="reference internal" href="#id8">订单管理</a></li>
+<li><a class="reference internal" href="#id9">统计数据</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">持续集成工具Jenkins安装使用</a><ul>
+  <li><a href="index.html">Artist  项目持续集成(Job列表)</a><ul>
+      <li>Previous: <a href="artist-micro-account.html" title="上一章">帐号服务(Job)</a></li>
+      <li>Next: <a href="../ssh_remote_hosts.html" title="下一章">SSH remote hosts配置</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/jenkins/artist/question.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../../_sources/jenkins/artist/question.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

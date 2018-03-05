@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>软件自身安全检测 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../index.html" />
+    <link rel="up" title="检测方法" href="substances.html" />
+    <link rel="next" title="用户操作安全检测" href="user_operation.html" />
+    <link rel="prev" title="运行环境安全检测" href="running_environment.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>软件自身安全检测<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>软件配置安全<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：检测APP（只针对Android）是否关闭应用调试、数据备份等相关功能。</li>
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div><p>1.反编译被测APP，提取出APP中的AndroidManifest.xml文件。</p>
+<p>2.查看AndroidManifest.xml中是否有设置android:allowBackup=&#8221;true&#8221;和android:debugAble=&#8221;true&#8221;。</p>
+</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div><p>1.在AndroidManifest.xml 配置文件中设置android:allowBackup=&#8221;false&#8221;。</p>
+<p>2.在AndroidManifest.xml 配置文件中设置android:debugAble=&#8221;false&#8221;。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>软件代码安全检测<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div><p>1.对代码混淆、Dex保护、SO保护、资源文件保护以及第三方加载库的代码的安全处理进行检测分析，发现代码被反编译和破解的漏洞。</p>
+<p>2.检测软件程序中是否包含有敏感URL，硬编码的密钥，手机号码和邮箱地址等敏感信息。</p>
+<p>3.查看反编译回来的程序代码，查看代码中是否暴露有公开的漏洞。</p>
+</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div><p>1.反编译被测APP，如果反编译成功，查看其代码是否有进行混淆，查看被测APP代码中是否泄漏有重要业务逻辑（加密解密算法）和敏感信息。</p>
+<p>2.如果不能对被测APP代码进行反编译，则分析其用了哪一家的加固方案。</p>
+</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div><p>1.对APP进行代码混淆处理。</p>
+<p>2.对APP进行加固处理，防止被反编译。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>重打包检测<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>对APK反编译后的内容进行重打包和签名，看是否可以进行重打包。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div><p>1.通过Androidkiller对APK反编译后的内容进行重打包和签名，看是否可以进行重打包。</p>
+<p>2.如果能够重打包，便对重打包后的APP进行安装，检测此APP是否能够正常运行。</p>
+</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>对APP进行加固处理，防止被反编译进而重打包。</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h2>组件安全检测<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>检测被测APP是否有Activity、Broadcast Receiver、Service、Provider可导出。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div>使用drozer进行组件导出检测（详细见检测工具）。</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>修改配置文件AndroidManifest.xml，尽量让Activity、Broadcast、Receivers、Service等组件的Exported属性为Flase。</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h2>软件运行日志检测<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>检测客户端软件的运行日志是否输出有用户名、手机号、密钥等敏感信息输出。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div>使用DDMS监听输出APP操作过程的日志信息。</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>建议发布版去掉log信息。</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">软件自身安全检测</a><ul>
+<li><a class="reference internal" href="#id2">软件配置安全</a></li>
+<li><a class="reference internal" href="#id3">软件代码安全检测</a></li>
+<li><a class="reference internal" href="#id4">重打包检测</a></li>
+<li><a class="reference internal" href="#id5">组件安全检测</a></li>
+<li><a class="reference internal" href="#id6">软件运行日志检测</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">移动App安全检测</a><ul>
+  <li><a href="substances.html">检测方法</a><ul>
+      <li>Previous: <a href="running_environment.html" title="上一章">运行环境安全检测</a></li>
+      <li>Next: <a href="user_operation.html" title="下一章">用户操作安全检测</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/app security/software_self_security.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/app security/software_self_security.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

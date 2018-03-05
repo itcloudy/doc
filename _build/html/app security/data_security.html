@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>数据安全检测 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../index.html" />
+    <link rel="up" title="检测方法" href="substances.html" />
+    <link rel="next" title="通信安全检测" href="communication_security.html" />
+    <link rel="prev" title="用户操作安全检测" href="user_operation.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>数据安全检测<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>信息输入与显示检测<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">检测内容：</p>
+<blockquote>
+<div><ul class="simple">
+<li>输入检测：</li>
+</ul>
+<blockquote>
+<div><p>1.密码输入过程中是否使用了随机键位软键盘及进行逐个字符加密。</p>
+<p>2.是否可以通过监听键盘点击事件进行键盘劫持。</p>
+</div></blockquote>
+<ul class="simple">
+<li>显示检测：</li>
+</ul>
+<blockquote>
+<div><p>APP在显示个人信息（如身份证号、手机号、邮箱、姓名、银行卡号等）时是否屏蔽部分关键字段。</p>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p class="first">检测方法：</p>
+</li>
+</ul>
+<blockquote>
+<div><p>1.进入密码输入状态，查看使用键盘是否为手机自带键盘。</p>
+<p>2.进入密码输入状态，输入密码，查看密码是否是明文显示。</p>
+<p>3.进入密码输入状态，输入密码，并进行监听查看是否可以定位界面坐标。</p>
+</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>使用随机键位软键盘，并且密码输入进行逐个字符加密。</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>屏幕录制检测<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>检测APP登录页面是否可以截屏。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div>登录页面，输入用户名和密码，使用手机自带截屏软件和其他专门的截屏工具APP进行APP登录页面截屏，查看是否可以成功。</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>建议在APP密码输入页面，应该禁止手机截屏操作。</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>本地存储检测<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>检测APP的本地数据库文件、配置文件等是否存储有明文的用户密码、邮箱、电话号码、私有IP、身份证号等敏感信息。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div>使用Androidkiller软件连接手机，查看文件中的数据库文件和资源文件里面是否有存储有明文的用户密码、邮箱、电话号码、私有IP、身份证号等敏感信息。</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>建议不在本地储存用户敏感信息，如用户密码、邮箱、电话号码、身份证号等敏感信息或是保存业务必须的敏感信息，敏感信息存储时应进行加密或不可逆变换。</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h2>本地目录权限检测<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>检测APP是否存在目录权限设置不当（设置不当的情况是drwxrwxrwx），造成非法访问。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div>连接手机，cmd中使用ls -l就可以查询文件的权限。</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>目录权限设置属性改为只有所属用户或同组用户可以读取或修改。</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h2>数据清除检测<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>检测APP卸载后移动设备本地存储是否包含有残留信息。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div>卸载APP，查看被测设备的外部存储是否保存有被测APP的相关敏感信息。</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>应用卸载后清除本地储存的敏感信息。</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">数据安全检测</a><ul>
+<li><a class="reference internal" href="#id2">信息输入与显示检测</a></li>
+<li><a class="reference internal" href="#id3">屏幕录制检测</a></li>
+<li><a class="reference internal" href="#id4">本地存储检测</a></li>
+<li><a class="reference internal" href="#id5">本地目录权限检测</a></li>
+<li><a class="reference internal" href="#id6">数据清除检测</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">移动App安全检测</a><ul>
+  <li><a href="substances.html">检测方法</a><ul>
+      <li>Previous: <a href="user_operation.html" title="上一章">用户操作安全检测</a></li>
+      <li>Next: <a href="communication_security.html" title="下一章">通信安全检测</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/app security/data_security.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/app security/data_security.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

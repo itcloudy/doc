@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>通信安全检测 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../index.html" />
+    <link rel="up" title="检测方法" href="substances.html" />
+    <link rel="next" title="业务安全检测" href="business_security.html" />
+    <link rel="prev" title="数据安全检测" href="data_security.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>通信安全检测<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>传输协议分析与证书认证检测<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div>检测APP与服务器之间是否有建立安全的信息传输通道，例如使用TLS或者IPSEC等协议；是否采用证书校验技术（如SSL Pinning等）来验证服务器身份，以防止中间人攻击。</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div>使用burpsuite抓取数据包，查看是否使用了HTTPS进行信息加密传输。</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div>建议使用HTTPS进行信息加密传输。</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>会话超时和断网会话检测<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>检测内容：</li>
+</ul>
+<blockquote>
+<div><p>1.检测APP是否存在空闲超时检测机制。</p>
+<p>2.检测被测APP遇到网络切换或者网络断开后，是否有提示用户选择是否继续交易。</p>
+</div></blockquote>
+<ul class="simple">
+<li>检测方法：</li>
+</ul>
+<blockquote>
+<div><p>1.登录APP后等待超过15分钟，然后再操作被测APP，查看其是否有要求用户进行重新登录。</p>
+<p>2.进行转账或者下单操作，在准备支付的时候断开网络连接，查看APP是否有提示用户选择是否继续交易。</p>
+</div></blockquote>
+<ul class="simple">
+<li>解决方案：</li>
+</ul>
+<blockquote>
+<div><p>1.客户端在超过15分钟无操作后，应设置会话超时并要求重新进行身份认证。</p>
+<p>2.APP应该对网络状态进行检测，遇到网络切换或者网络断开后，应提示用户选择是否继续交易，必要时可终止软件运行。</p>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">通信安全检测</a><ul>
+<li><a class="reference internal" href="#id2">传输协议分析与证书认证检测</a></li>
+<li><a class="reference internal" href="#id3">会话超时和断网会话检测</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">移动App安全检测</a><ul>
+  <li><a href="substances.html">检测方法</a><ul>
+      <li>Previous: <a href="data_security.html" title="上一章">数据安全检测</a></li>
+      <li>Next: <a href="business_security.html" title="下一章">业务安全检测</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/app security/communication_security.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/app security/communication_security.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

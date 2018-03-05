@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>安装Jenkins &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../index.html" />
+    <link rel="up" title="持续集成工具Jenkins安装使用" href="index.html" />
+    <link rel="next" title="插件安装" href="plugins.html" />
+    <link rel="prev" title="持续集成工具Jenkins安装使用" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="jenkins">
+<h1>安装Jenkins<a class="headerlink" href="#jenkins" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>系统安装<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>CentOS-6.8-x86_64-minimal</p>
+<p>下载地址:<a class="reference external" href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso</a>
+ps:虚拟机安装用户root:Hexiaoyun128.</p>
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h2>启用网卡信息<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>文件路径：</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>/etc/sysconfig/network-scripts/ifcfg-eth0
+</pre></div>
+</div>
+<ul class="simple">
+<li>修改网卡信息，将ONBOOT=no改为ONBOOT=yes</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nv">DEVICE</span><span class="o">=</span>eth0
+<span class="nv">HWADDR</span><span class="o">=</span>08:00:27:B5:97:CE
+<span class="nv">TYPE</span><span class="o">=</span>Ethernet
+<span class="nv">UUID</span><span class="o">=</span>06beb802-ad1e-41da-bff2-a42d95e3aca2
+<span class="nv">ONBOOT</span><span class="o">=</span>yes
+<span class="nv">NM_CONTROLLED</span><span class="o">=</span>yes
+<span class="nv">BOOTPROTO</span><span class="o">=</span>dhcp
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="maven">
+<h2>maven配置<a class="headerlink" href="#maven" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>下载maven</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>wget https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+</pre></div>
+</div>
+<ul class="simple">
+<li>解压</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>tar zxvf apache-maven-3.5.0-bin.tar.gz
+mv apache-maven-3.5.0 /usr/local/
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="jdk">
+<h2>jdk配置<a class="headerlink" href="#jdk" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><p class="first">下载地址：</p>
+<blockquote>
+<div><p><a class="reference external" href="http://192.168.1.7/jdk-8u111-linux-x64.tar.gz?fid=Sz8HfSSYTUEE7nuDfgMFJPrLx0A3l9AKAAAAAB6JNf4ch7h0BdTpSQCgtCpPRYyN&amp;mid=666&amp;threshold=150&amp;tid=268209DF4960588CC23F42A3D18C19C5&amp;srcid=119&amp;verno=1">http://192.168.1.7/jdk-8u111-linux-x64.tar.gz?fid=Sz8HfSSYTUEE7nuDfgMFJPrLx0A3l9AKAAAAAB6JNf4ch7h0BdTpSQCgtCpPRYyN&amp;mid=666&amp;threshold=150&amp;tid=268209DF4960588CC23F42A3D18C19C5&amp;srcid=119&amp;verno=1</a></p>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>执行命令</dt>
+<dd><div class="first last highlight-shell"><div class="highlight"><pre><span></span>tar zxvf jdk-8u111-linux-x64.tar.gz
+mv jdk1.8.0_111 /usr/local/
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>在/.bashrc后面追加下面的内容:</dt>
+<dd><div class="first last highlight-shell"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">MAVEN_HOME</span><span class="o">=</span>/usr/local/apache-maven-3.5.0
+<span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/jdk1.8.0_111
+<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib/tools.jar
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$MAVEN_HOME</span>/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span> <span class="nv">JRE_HOME</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/jre
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">更新</p>
+</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nb">source</span> .bashrc
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="git">
+<h2>git安装(已安装则忽略)<a class="headerlink" href="#git" title="永久链接至标题">¶</a></h2>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>yum install git-core -y
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>安装Jenkins:<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Jenkins安装</dt>
+<dd><div class="first last highlight-shell"><div class="highlight"><pre><span></span>yum install wget -y
+wget -O /etc/yum.repos.d/jenkins.repo http://jenkins-ci.org/redhat/jenkins.repo
+rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+yum install jenkins -y
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>修改jenkins配置信息:</dt>
+<dd><div class="first highlight-shell"><div class="highlight"><pre><span></span>vi /etc/init.d/jenkins
+</pre></div>
+</div>
+<p>在70行左右的candidates中增加下面的代码(前面安装jdk时的java路径)</p>
+<div class="last highlight-shell"><div class="highlight"><pre><span></span>/usr/local/jdk1.8.0_111/bin/java
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">启动 jenkins</p>
+</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>service jenkins start
+</pre></div>
+</div>
+<ul class="simple">
+<li>开放8080 端口</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>vi /etc/sysconfig/iptables
+</pre></div>
+</div>
+<ul>
+<li><p class="first">添加下面的内容(放到开放端口22下面)</p>
+<blockquote>
+<div><div class="highlight-shell"><div class="highlight"><pre><span></span>-A INPUT -m state --state NEW -m tcp -p tcp --dport <span class="m">8080</span> -j ACCEPT
+</pre></div>
+</div>
+<ul class="simple">
+<li>重启防火墙</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>/etc/init.d/iptables restart
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">修改jenkins的用户</p>
+</li>
+</ul>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>vi  /etc/sysconfig/jenkins
+<span class="nv">JENKINS_USER</span><span class="o">=</span><span class="s2">&quot;root&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>查看初始密码：<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>tail /var/lib/jenkins/secrets/initialAdminPassword
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>浏览器登录<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="http://192.168.21.201:8080/">http://192.168.21.201:8080/</a>
+输入前面查看到的密码</p>
+<img alt="初始页面" class="align-center" src="../_images/init.png" />
+</div>
+<div class="section" id="id6">
+<h2>安装推荐插件<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<img alt="安装推荐插件" class="align-center" src="../_images/intall_suggested_plugins.png" />
+</div>
+<div class="section" id="id7">
+<h2>进度查看<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<img alt="进度查看" class="align-center" src="../_images/progress_check.png" />
+</div>
+<div class="section" id="id8">
+<h2>用户和密码设置<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>输入用户名batar
+输入密码：batar</div></blockquote>
+<img alt="用户和密码设置" class="align-center" src="../_images/jenkins_user.png" />
+<p>后续默认操作即可进入jenkins页面</p>
+<img alt="jenkins页面" class="align-center" src="../_images/jenkins_first.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">安装Jenkins</a><ul>
+<li><a class="reference internal" href="#id1">系统安装</a></li>
+<li><a class="reference internal" href="#id2">启用网卡信息</a></li>
+<li><a class="reference internal" href="#maven">maven配置</a></li>
+<li><a class="reference internal" href="#jdk">jdk配置</a></li>
+<li><a class="reference internal" href="#git">git安装(已安装则忽略)</a></li>
+<li><a class="reference internal" href="#id3">安装Jenkins:</a></li>
+<li><a class="reference internal" href="#id4">查看初始密码：</a></li>
+<li><a class="reference internal" href="#id5">浏览器登录</a></li>
+<li><a class="reference internal" href="#id6">安装推荐插件</a></li>
+<li><a class="reference internal" href="#id7">进度查看</a></li>
+<li><a class="reference internal" href="#id8">用户和密码设置</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">持续集成工具Jenkins安装使用</a><ul>
+      <li>Previous: <a href="index.html" title="上一章">持续集成工具Jenkins安装使用</a></li>
+      <li>Next: <a href="plugins.html" title="下一章">插件安装</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/jenkins/install.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/jenkins/install.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

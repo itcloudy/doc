@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>md5加密 &mdash; 实践资料 1.0.0 文档</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="top" title="实践资料 1.0.0 文档" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="md5">
+<h1>md5加密<a class="headerlink" href="#md5" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>加密代码<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>文件名为：ArtistMD5.java</div></blockquote>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.hechihan</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.math.BigInteger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.security.MessageDigest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ArtistMD5</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getSignKey</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">String</span><span class="o">[]&gt;</span> <span class="n">map</span><span class="o">,</span><span class="n">String</span> <span class="n">appId</span><span class="o">,</span><span class="n">String</span> <span class="n">appSecret</span><span class="o">,</span>
+                                    <span class="n">String</span> <span class="n">accessToken</span><span class="o">,</span><span class="n">String</span> <span class="n">requestMethod</span><span class="o">,</span><span class="n">String</span> <span class="n">requestUrl</span><span class="o">){</span>
+        <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;appId&quot;</span><span class="o">,</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="n">appId</span><span class="o">});</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">accessToken</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">)){</span>
+            <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;accessToken&quot;</span><span class="o">,</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="n">accessToken</span><span class="o">});</span>
+        <span class="o">}</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">keyList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">:</span><span class="n">map</span><span class="o">.</span><span class="na">keySet</span><span class="o">()){</span>
+            <span class="n">keyList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">keyList</span><span class="o">);</span>
+        <span class="n">StringBuilder</span> <span class="n">signSb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">(</span><span class="n">requestMethod</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">+</span> <span class="n">requestUrl</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">:</span><span class="n">keyList</span><span class="o">){</span>
+            <span class="n">signSb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;&amp;&quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s">&quot;=&quot;</span> <span class="o">+</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="n">signSb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;&amp;&quot;</span> <span class="o">+</span> <span class="n">appSecret</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">signStr</span> <span class="o">=</span> <span class="n">signSb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">signKey</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+
+        <span class="k">try</span><span class="o">{</span>
+            <span class="n">MessageDigest</span> <span class="n">messageDigest</span> <span class="o">=</span> <span class="n">MessageDigest</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&quot;MD5&quot;</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">signStrEncode</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">signStr</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+            <span class="n">messageDigest</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">signStrEncode</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+             <span class="n">signKey</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="n">messageDigest</span><span class="o">.</span><span class="na">digest</span><span class="o">()).</span><span class="na">toString</span><span class="o">(</span><span class="mi">16</span><span class="o">);</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">signKey</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="o">(</span><span class="mi">32</span> <span class="o">-</span> <span class="n">signKey</span><span class="o">.</span><span class="na">length</span><span class="o">());</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="n">signKey</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span> <span class="o">+</span> <span class="n">signKey</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+
+        <span class="o">}</span>
+        <span class="k">return</span>  <span class="n">signKey</span><span class="o">;</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="java">
+<h2>打成java包<a class="headerlink" href="#java" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>在文件路劲下执行面的命令：
+.. code-block:: shell</p>
+<blockquote>
+<div>javac ArtistMD5.java
+jar    cvf    ArtistMD5.jar    ArtistMD5.class</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="jarjmeter">
+<h2>jar包引入到jmeter<a class="headerlink" href="#jarjmeter" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>将生成的jar包放到%JMETER_HOME%\lib目录下</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">md5加密</a><ul>
+<li><a class="reference internal" href="#id1">加密代码</a></li>
+<li><a class="reference internal" href="#java">打成java包</a></li>
+<li><a class="reference internal" href="#jarjmeter">jar包引入到jmeter</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/jmeter/artist/md5.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, cloudy.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../../_sources/jmeter/artist/md5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
